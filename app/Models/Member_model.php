@@ -532,6 +532,13 @@ class Member_model extends Model {
     $id = $param['id'];
     unset($param['id']);
 
+//get current year and pay date of the parent
+    $builder->resetQuery();
+    $builder->where('id_members', $mem->parent_primary);
+    $parent = $builder->get()->getRow();
+    $param['cur_year'] = $parent->cur_year;
+    $param['paym_date'] = $parent->paym_date;
+
     $builder->resetQuery();
     $builder->update($param, ['id_members' => $id]);
     $param['id'] = $id;
